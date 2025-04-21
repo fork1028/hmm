@@ -1,24 +1,35 @@
-<!-- 2048Game.vue -->
 <template>
   <div class="game-container">
     <audio ref="bgm" src="/audio/bgm.mp3" loop autoplay></audio>
     <audio ref="moveSound" src="/audio/move.mp3"></audio>
 
-    <div v-if="gameStarted" class="grid">
-      <div v-for="(row, rowIndex) in board" :key="rowIndex" class="row">
-        <div v-for="(cell, colIndex) in row" :key="colIndex" class="cell">
-          <div class="tile-wrapper" v-if="cell">
-            <img
-              :src="getImage(cell)"
-              :key="`${cell}-${rowIndex}-${colIndex}`"
-              class="tile-image"
-            />
-            <div class="tile-score">{{ cell }}</div>
+    <div class="game-inner-container">
+      <v-btn
+        v-if="gameStarted"
+        @click="toggleMode"
+        color="teal-accent-4"
+        class="mt-4 mb-4"
+        variant="tonal"
+        >{{ winScore == 2048 ? "Easy Mode 🍕" : "Normal Mode 🔥" }}</v-btn
+      >
+
+      <div v-if="gameStarted" class="grid">
+        <div v-for="(row, rowIndex) in board" :key="rowIndex" class="row">
+          <div v-for="(cell, colIndex) in row" :key="colIndex" class="cell">
+            <div class="tile-wrapper" v-if="cell">
+              <img
+                :src="getImage(cell)"
+                :key="`${cell}-${rowIndex}-${colIndex}`"
+                class="tile-image"
+              />
+              <div class="tile-score">{{ cell }}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <div v-if="!gameStarted" style="color: #a8a8a8">Guess what game it is?</div>
     <v-btn
       v-if="!gameStarted"
       @click="startGame"
@@ -28,18 +39,43 @@
       >Start Game</v-btn
     >
 
-    <v-dialog v-model="win" max-width="300">
-      <v-card>
+    <v-dialog v-model="win" max-width="500">
+      <v-card class="pa-2">
         <v-card-title>🎉 You win!</v-card-title>
+        <v-card-text>
+          <div style="font-size: 14px">
+            Annnnnnnnnnd.... Happy Birthday!
+            <br />
+            Hope you like this simple game made by 90% of our helper (well you
+            know who) and me, not a great writer but wish you all the best for
+            this coming 365 days before your next birthday 😉
+
+            <br />
+            <br />
+            Also hope you get over with any awful feelings with the powder
+            blush, I hope dressing yourself up could cheer you up a bit 💄
+
+            <br />
+            <br />
+            You are already doing sooo amazing, don't be to hard at work, you
+            are the best!
+
+            <br />
+            <br />
+            Love,
+            <br />
+            Yumika & Grace
+          </div>
+        </v-card-text>
         <v-card-actions>
           <v-btn color="teal-accent-4" @click="startGame">Play Again</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="lose" max-width="300">
+    <v-dialog v-model="lose" max-width="500">
       <v-card>
-        <v-card-title>💀 Game over!</v-card-title>
+        <v-card-title>🤔 Game over!</v-card-title>
         <v-card-actions>
           <v-btn color="teal-accent-4" @click="startGame">Try Again</v-btn>
         </v-card-actions>
@@ -65,6 +101,7 @@ const lose = ref(false);
 const gameStarted = ref(false);
 const bgm = ref<HTMLAudioElement | null>(null);
 const moveSound = ref<HTMLAudioElement | null>(null);
+const winScore = ref(2048);
 
 const startGame = () => {
   gameStarted.value = true;
@@ -199,11 +236,19 @@ const move = (
 const checkWin = () => {
   for (const row of board.value) {
     for (const cell of row) {
-      if (cell === 2048) {
+      if (cell === winScore.value) {
         win.value = true;
         return;
       }
     }
+  }
+};
+
+const toggleMode = () => {
+  if (winScore.value === 128) {
+    winScore.value = 2048;
+  } else {
+    winScore.value = 128;
   }
 };
 
@@ -229,6 +274,12 @@ const checkLose = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgb(232, 254, 247);
+}
+.game-inner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .grid {
   display: grid;
