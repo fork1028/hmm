@@ -1,7 +1,7 @@
 <template>
   <div class="game-container">
-    <audio ref="bgm" src="/audio/bgm.mp3" loop autoplay></audio>
-    <audio ref="moveSound" src="/audio/move.mp3"></audio>
+    <audio ref="bgm" src="/hmm/audio/bgm.mp3" loop autoplay></audio>
+    <audio ref="moveSound" src="/hmm/audio/move.mp3"></audio>
 
     <div class="game-inner-container">
       <v-btn
@@ -128,7 +128,7 @@ const addRandomTile = () => {
 };
 
 const getImage = (value: number): string => {
-  return `/images/${value}.png`;
+  return `/hmm/images/${value}.png`;
 };
 
 const preloadImages = () => {
