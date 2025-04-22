@@ -10,7 +10,7 @@
         color="teal-accent-4"
         class="mt-4 mb-4"
         variant="tonal"
-        >{{ winScore == 2048 ? "Easy Mode 🍕" : "Normal Mode 🔥" }}</v-btn
+        >{{ winScore == 2048 ? "Switch to Easy Mode 🍕" : "Switch to Normal Mode 🔥" }}</v-btn
       >
 
       <div v-if="gameStarted" class="grid">
