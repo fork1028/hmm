@@ -250,6 +250,7 @@ const toggleMode = () => {
   } else {
     winScore.value = 128;
   }
+  startGame();
 };
 
 const checkLose = () => {
